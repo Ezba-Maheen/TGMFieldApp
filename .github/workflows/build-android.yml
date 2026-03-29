@@ -20,18 +20,16 @@ jobs:
           distribution: 'temurin'
       - uses: android-actions/setup-android@v3
       - run: npm install
-      - uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+      - name: Generate autolinking config
+        run: |
+          mkdir -p android/build/generated/autolinking
+          node node_modules/@react-native-community/cli/build/bin.js config > android/build/generated/autolinking/autolinking.json || true
+          echo "Autolinking file contents:"
+          cat android/build/generated/autolinking/autolinking.json | head -5 || echo "File is empty or missing"
       - name: Create Hermes version file
         run: |
           mkdir -p node_modules/react-native/sdks/hermes-engine
           cp node_modules/react-native/sdks/.hermesversion node_modules/react-native/sdks/hermes-engine/version.properties
-      - name: Create autolinking directory
-        run: mkdir -p android/build/generated/autolinking
       - run: chmod +x android/gradlew
       - run: cd android && ./gradlew assembleDebug --no-daemon --max-workers=2
         env:
