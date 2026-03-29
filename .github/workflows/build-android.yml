@@ -20,6 +20,8 @@ jobs:
           distribution: 'temurin'
       - uses: android-actions/setup-android@v3
       - run: npm install
+      - name: Install native packages
+        run: npm install react-native-gesture-handler react-native-safe-area-context react-native-screens react-native-vector-icons react-native-sqlite-storage --legacy-peer-deps
       - name: Generate autolinking config
         run: |
           mkdir -p android/build/generated/autolinking
