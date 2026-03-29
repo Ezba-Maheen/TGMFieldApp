@@ -26,6 +26,10 @@ jobs:
             ~/.gradle/caches
             ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+      - name: Create Hermes version file
+        run: |
+          mkdir -p node_modules/react-native/sdks/hermes-engine
+          cp node_modules/react-native/sdks/.hermesversion node_modules/react-native/sdks/hermes-engine/version.properties
       - run: chmod +x android/gradlew
       - run: cd android && ./gradlew assembleDebug --no-daemon --max-workers=2
         env:
