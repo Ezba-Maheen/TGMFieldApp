@@ -14,16 +14,17 @@ buildscript {
     dependencies {
         classpath("com.android.tools.build:gradle:8.12.0")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
-        // ❌ REMOVED: classpath("com.facebook.react:react-native-gradle-plugin")
     }
 }
 allprojects {
     repositories {
         google()
         mavenCentral()
-        maven { url "https://packages.react-native.community" }
         maven {
-            url "$rootDir/../node_modules/react-native/android"
+            url("${project.rootDir}/../node_modules/react-native/android")
+        }
+        maven {
+            url("${project.rootDir}/../node_modules/@react-native/gradle-plugin")
         }
     }
 }
