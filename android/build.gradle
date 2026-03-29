@@ -20,11 +20,6 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        maven {
-            url("${project.rootDir}/../node_modules/react-native/android")
-        }
-        maven {
-            url("${project.rootDir}/../node_modules/@react-native/gradle-plugin")
-        }
+        maven { url "https://www.jitpack.io" }
     }
 }
