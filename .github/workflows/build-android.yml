@@ -20,8 +20,10 @@ jobs:
           distribution: 'temurin'
       - uses: android-actions/setup-android@v3
       - run: npm install
-      - name: Create autolinking directory
-        run: mkdir -p android/build/generated/autolinking
+      - name: Generate autolinking config
+        run: |
+          mkdir -p android/build/generated/autolinking
+          npx react-native config > android/build/generated/autolinking/autolinking.json
       - name: Create Hermes version file
         run: |
           mkdir -p node_modules/react-native/sdks/hermes-engine
@@ -30,6 +32,7 @@ jobs:
       - run: cd android && ./gradlew assembleDebug --no-daemon --max-workers=2
         env:
           GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx3g -Dorg.gradle.daemon=false"
+          ORG_GRADLE_PROJECT_newArchEnabled: "false"
       - uses: actions/upload-artifact@v4
         with:
           name: TGMFieldApp-debug
