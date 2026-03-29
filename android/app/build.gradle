@@ -4,16 +4,17 @@ plugins {
 }
 
 react {
-    // Autolinking handled automatically in 0.73+
+    reactNativeDir = file("../../node_modules/react-native")
+    hermesCommand = file("../../node_modules/react-native/sdks/hermesc/%OS-BIN%/hermesc")
+    codegenDir = file("../../node_modules/@react-native/codegen")
+    cliFile = file("../../node_modules/@react-native-community/cli/build/bin.js")
 }
 
 def enableProguardInReleaseBuilds = false
-def jscFlavor = 'org.webkit:android-jsc:+'
 
 android {
     namespace "com.tgmfieldapp"
     compileSdkVersion 34
-
     defaultConfig {
         applicationId "com.tgmfieldapp"
         minSdkVersion 24
@@ -21,7 +22,6 @@ android {
         versionCode 1
         versionName "1.0"
     }
-
     signingConfigs {
         debug {
             storeFile file('debug.keystore')
@@ -30,7 +30,6 @@ android {
             keyPassword 'android'
         }
     }
-
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
