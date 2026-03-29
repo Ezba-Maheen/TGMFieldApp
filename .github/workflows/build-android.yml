@@ -31,10 +31,11 @@ jobs:
           mkdir -p node_modules/react-native/sdks/hermes-engine
           cp node_modules/react-native/sdks/.hermesversion node_modules/react-native/sdks/hermes-engine/version.properties
       - run: chmod +x android/gradlew
-      - run: cd android && ./gradlew assembleDebug --no-daemon --max-workers=2 -x generateReactNativeEntryPoint
+      - run: cd android && ./gradlew assembleDebug --no-daemon --max-workers=2 -x generateReactNativeEntryPoint --stacktrace --warning-mode all
         env:
           GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx3g -Dorg.gradle.daemon=false"
           ORG_GRADLE_PROJECT_newArchEnabled: "false"
+
       - uses: actions/upload-artifact@v4
         with:
           name: TGMFieldApp-debug
