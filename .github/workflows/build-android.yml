@@ -20,22 +20,12 @@ jobs:
           distribution: 'temurin'
       - uses: android-actions/setup-android@v3
       - run: npm install
-      - name: Install native dependencies
-        run: |
-          npm install react-native-gesture-handler react-native-safe-area-context react-native-screens react-native-vector-icons react-native-sqlite-storage --legacy-peer-deps || true
-      - name: Generate autolinking config
-       - name: Create autolinking directory
+      - name: Create autolinking directory
         run: mkdir -p android/build/generated/autolinking
       - name: Create Hermes version file
         run: |
           mkdir -p node_modules/react-native/sdks/hermes-engine
           cp node_modules/react-native/sdks/.hermesversion node_modules/react-native/sdks/hermes-engine/version.properties
-      - uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
       - run: chmod +x android/gradlew
       - run: cd android && ./gradlew assembleDebug --no-daemon --max-workers=2
         env:
