@@ -24,10 +24,8 @@ jobs:
         run: |
           npm install react-native-gesture-handler react-native-safe-area-context react-native-screens react-native-vector-icons react-native-sqlite-storage --legacy-peer-deps || true
       - name: Generate autolinking config
-        run: |
-          mkdir -p android/build/generated/autolinking
-          npx react-native config > android/build/generated/autolinking/autolinking.json
-          echo "Autolinking done"
+       - name: Create autolinking directory
+        run: mkdir -p android/build/generated/autolinking
       - name: Create Hermes version file
         run: |
           mkdir -p node_modules/react-native/sdks/hermes-engine
