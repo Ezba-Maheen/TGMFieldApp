@@ -20,9 +20,6 @@ jobs:
           distribution: 'temurin'
       - uses: android-actions/setup-android@v3
       - run: npm install
-      - name: Generate autolinking
-        run:  mkdir -p android/build/generated/autolinking
-              npx @react-native-community/cli config > android/build/generated/autolinking/autolinking.json
       - uses: actions/cache@v4
         with:
           path: |
@@ -33,6 +30,8 @@ jobs:
         run: |
           mkdir -p node_modules/react-native/sdks/hermes-engine
           cp node_modules/react-native/sdks/.hermesversion node_modules/react-native/sdks/hermes-engine/version.properties
+      - name: Create autolinking directory
+        run: mkdir -p android/build/generated/autolinking
       - run: chmod +x android/gradlew
       - run: cd android && ./gradlew assembleDebug --no-daemon --max-workers=2
         env:
