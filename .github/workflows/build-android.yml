@@ -1,39 +1,13 @@
-﻿name: Build Android Debug APK
-
-on:
-  push:
-    branches: [ main, master ]
-  workflow_dispatch:
-
-jobs:
-  build-android:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          cache: 'npm'
-      - uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-      - uses: android-actions/setup-android@v3
-      - run: npm install
-      - name: Generate autolinking config
+﻿- name: Fix ReactNativeApplicationEntryPoint
         run: |
-          mkdir -p android/build/generated/autolinking
-          npx react-native config > android/build/generated/autolinking/autolinking.json
-      - name: Create Hermes version file
-        run: |
-          mkdir -p node_modules/react-native/sdks/hermes-engine
-          cp node_modules/react-native/sdks/.hermesversion node_modules/react-native/sdks/hermes-engine/version.properties
-      - run: chmod +x android/gradlew
-      - run: cd android && ./gradlew assembleDebug --no-daemon --max-workers=2
-        env:
-          GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx3g -Dorg.gradle.daemon=false"
-          ORG_GRADLE_PROJECT_newArchEnabled: "false"
-      - uses: actions/upload-artifact@v4
-        with:
-          name: TGMFieldApp-debug
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          mkdir -p android/build/generated/autolinking/src/main/java/com/facebook/react
+          cat > android/build/generated/autolinking/src/main/java/com/facebook/react/ReactNativeApplicationEntryPoint.java << 'EOF'
+          package com.facebook.react;
+          import android.content.Context;
+          import com.facebook.soloader.SoLoader;
+          public class ReactNativeApplicationEntryPoint {
+            public static void load(Context context) {
+              SoLoader.init(context, false);
+            }
+          }
+          EOF
