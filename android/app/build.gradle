@@ -13,12 +13,11 @@ def enableProguardInReleaseBuilds = false
 
 android {
     namespace "com.tgmfieldapp"
-    compileSdk 36
-
+    compileSdkVersion 34
     defaultConfig {
         applicationId "com.tgmfieldapp"
-        minSdk 24
-        targetSdk 34
+        minSdkVersion 24
+        targetSdkVersion 34
         versionCode 1
         versionName "1.0"
     }
@@ -41,16 +40,10 @@ android {
         }
     }
 }
+
 dependencies {
-    implementation("com.facebook.react:react-android:0.73.6")
-    implementation("com.facebook.react:hermes-android:0.73.6")
-
-    implementation project(':react-native-gesture-handler')
-    implementation project(':react-native-safe-area-context')
-    implementation "com.github.software-mansion:react-native-screens:3.25.0"
-    implementation project(':react-native-vector-icons')
+    implementation("com.facebook.react:react-android")
+    implementation("com.facebook.react:hermes-android")
 }
-
-
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle")
