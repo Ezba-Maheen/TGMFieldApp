@@ -43,10 +43,9 @@ android {
 dependencies {
     implementation("com.facebook.react:react-android:0.73.6")
     implementation("com.facebook.react:hermes-android:0.73.6")
-    implementation("com.swmansion.gesturehandler:react-native-gesture-handler:2.14.0")
-    implementation("com.th3rdwave.safeareacontext:react-native-safe-area-context:4.8.2")
-    implementation("com.swmansion.rnscreens:react-native-screens:3.25.0")
-    implementation("com.oblador:react-native-vector-icons:10.0.0")
+    implementation project(':react-native-gesture-handler')
+    implementation project(':react-native-safe-area-context')
+    implementation project(':react-native-screens')
+    implementation project(':react-native-vector-icons')
 }
-
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle")
